@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Telefon Numarası Doğrulama</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        .result {
+            font-size: 18px;
+            color: #333;
+        }
+        .valid {
+            color: green;
+        }
+        .invalid {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Telefon Numarası Doğrulama Sonucu</h1>
+        <div class="result" id="result"></div>
+    </div>
+
+
+    <script>
+    
+
+        var myHeaders = new Headers();
+        myHeaders.append("apikey", "gwCMJ17nBn3aka7vaNvcIY2yznMChvms");
+
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow',
+            headers: myHeaders
+        };
+
+        // Telefon numarasını değiştirin veya kullanıcıdan alın
+        var phoneNumber = prompt("Lütfen Numaranızı giriniz");
+
+        fetch("https://api.apilayer.com/number_verification/validate?number=" + phoneNumber, requestOptions)
+        .then(response => response.json())
+        .then(data => {
+            // Sonucu HTML içine yerleştirin
+            var resultDiv = document.getElementById("result");
+            resultDiv.innerHTML = "Doğrulama Sonucu: ";
+
+            var status = data.valid ? "Geçerli" : "Geçerli Değil";
+            resultDiv.innerHTML += '<span class="' + (data.valid ? 'valid' : 'invalid') + '">' + status + '</span>';
+        })
+        .catch(error => console.log('error', error));
+    </script>
+
+</body>
+</html>
